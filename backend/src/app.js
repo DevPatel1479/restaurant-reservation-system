@@ -9,35 +9,20 @@ import { errorHandler, notFound } from './middlewares/errorHandler.js';
 
 const app = express();
 
-const allowedOrigins = (process.env.CORS_ORIGIN || '')
-  .split(',')
-  .map((origin) => origin.trim())
-  .filter(Boolean);
 
-console.log('Allowed Origins:', allowedOrigins);
 
 app.use(helmet());
 app.use(express.json({ limit: '1mb' }));
 
 app.use(cors({
-  origin(origin, callback) {
-    console.log('Incoming Origin:', origin);
-
-    if (!origin) {
+  origin: (origin, callback) => {
+    const allowed = (process.env.CORS_ORIGIN || '').split(',').map((x) => x.trim()).filter(Boolean);
+    if (!origin || allowed.length === 0 || allowed.includes(origin)) {
       return callback(null, true);
     }
-
-    if (allowedOrigins.includes(origin)) {
-      return callback(null, true);
-    }
-
-    console.error('Blocked Origin:', origin);
-
-    return callback(new Error(`Origin not allowed: ${origin}`));
+    return callback(new Error('Not allowed by CORS'));
   },
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+  credentials: true
 }));
 app.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'));
 
