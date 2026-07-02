@@ -2,7 +2,22 @@
 
 A production-style full-stack reservation system built with React, Node.js, Express, MongoDB, and JWT authentication.
 
-## What is included
+## Live Demo
+
+Frontend
+
+https://restaurant-reservation-system-lp2z6nnpo.vercel.app
+
+Backend
+
+https://restaurant-reservation-system-cfy2.onrender.com
+
+Health Endpoint
+
+https://restaurant-reservation-system-cfy2.onrender.com/api/health
+
+
+## Features
 
 - Customer registration and login
 - Admin login and admin-only dashboard
@@ -20,6 +35,113 @@ A production-style full-stack reservation system built with React, Node.js, Expr
 - Database: MongoDB Atlas
 - Auth: JWT
 - Validation: Zod
+
+## Project Structure
+
+```text
+restaurant-reservation-system
+│
+├── backend
+│   ├── src
+│   │   ├── config
+│   │   │   └── db.js
+│   │   │
+│   │   ├── controllers
+│   │   │   ├── authController.js
+│   │   │   ├── reservationController.js
+│   │   │   └── tableController.js
+│   │   │
+│   │   ├── middlewares
+│   │   │   ├── auth.js
+│   │   │   ├── errorHandler.js
+│   │   │   └── validate.js
+│   │   │
+│   │   ├── models
+│   │   │   ├── User.js
+│   │   │   ├── Table.js
+│   │   │   └── Reservation.js
+│   │   │
+│   │   ├── routes
+│   │   │   ├── authRoutes.js
+│   │   │   ├── reservationRoutes.js
+│   │   │   └── tableRoutes.js
+│   │   │
+│   │   ├── validators
+│   │   │   ├── authSchemas.js
+│   │   │   ├── reservationSchemas.js
+│   │   │   └── tableSchemas.js
+│   │   │
+│   │   ├── utils
+│   │   │   ├── apiError.js
+│   │   │   └── time.js
+│   │   │
+│   │   ├── test
+│   │   │   ├── app.test.js
+│   │   │   └── setup.js
+│   │   │
+│   │   ├── app.js
+│   │   ├── server.js
+│   │   └── seed.js
+│   │
+│   ├── .env.example
+│   ├── jest.config.js
+│   └── package.json
+│
+├── frontend
+│   ├── src
+│   │   ├── components
+│   │   │   ├── Field.jsx
+│   │   │   ├── Layout.jsx
+│   │   │   └── ProtectedRoute.jsx
+│   │   │
+│   │   ├── pages
+│   │   │   ├── AuthPage.jsx
+│   │   │   ├── CustomerDashboard.jsx
+│   │   │   └── AdminDashboard.jsx
+│   │   │
+│   │   ├── state
+│   │   │   └── AuthContext.jsx
+│   │   │
+│   │   ├── api.js
+│   │   ├── App.jsx
+│   │   ├── main.jsx
+│   │   └── styles.css
+│   │
+│   ├── .env.example
+│   ├── index.html
+│   ├── vercel.json
+│   ├── vite.config.js
+│   └── package.json
+│
+├── .gitignore
+└── README.md
+```
+
+## Environment Variables
+
+### Backend (.env)
+
+```env
+MONGODB_URI=
+
+JWT_ACCESS_SECRET=
+
+JWT_EXPIRES_IN=7d
+
+CORS_ORIGIN=
+
+ADMIN_SEED_EMAIL=
+
+ADMIN_SEED_PASSWORD=
+
+ADMIN_SEED_NAME=
+```
+
+### Frontend (.env)
+
+```env
+VITE_API_URL=
+```
 
 ## Free MongoDB connection
 
@@ -132,7 +254,7 @@ npm run preview
 After seeding:
 
 - Email: `admin@restaurant.com`
-- Password: `Admin123!@#`
+- Password: `Admin123@`
 
 You can change this in `backend/.env` before running the seed script.
 
@@ -211,13 +333,34 @@ Deploy the frontend to Vercel, Netlify, or similar.
 
 Set:
 
-- `VITE_API_URL=https://your-backend-url/api`
+- `VITE_API_URL=https://restaurant-reservation-system-cfy2.onrender.com/api`
 
 Build command:
 
 ```bash
 npm run build
 ```
+
+## API Response Codes
+
+- 200 OK
+- 201 Created
+- 400 Bad Request
+- 401 Unauthorized
+- 403 Forbidden
+- 404 Not Found
+- 409 Conflict (Table unavailable)
+- 500 Internal Server Error
+
+```md
+## Security
+
+- JWT Authentication
+- Passwords hashed using bcrypt
+- Helmet security headers
+- Request validation using Zod
+- Environment variables for secrets
+- CORS protection
 
 ## Known limitations
 
